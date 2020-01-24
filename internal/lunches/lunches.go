@@ -3,6 +3,7 @@ package lunches
 import (
 	"net/http"
 	"regexp"
+	"time"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/patrickmn/go-cache"
@@ -38,7 +39,7 @@ func (h Handler) GetAll() ([]string, error) {
 		return []string{}, err
 	}
 
-	h.Cache.Set("lunches", lunches, cache.NoExpiration)
+	h.Cache.Set("lunches", lunches, 1*time.Hour)
 
 	return lunches, nil
 }

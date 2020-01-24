@@ -7,6 +7,7 @@ import (
 	"github.com/nlopes/slack"
 	log "github.com/sirupsen/logrus"
 
+	"github.com/antonjah/gleif/internal/insults"
 	"github.com/antonjah/gleif/internal/lunches"
 )
 
@@ -14,7 +15,8 @@ var (
 	IGNORECASE = "(?i)"
 	LUNCH      = regexp.MustCompile(IGNORECASE + "^\\.lunch (.*)")
 	TACOS      = regexp.MustCompile(IGNORECASE + "^\\.tacos")
-	QUESTION = regexp.MustCompile(IGNORECASE + "^leif(.*)\\?")
+	QUESTION   = regexp.MustCompile(IGNORECASE + "^leif(.*)\\?")
+	INSULT     = regexp.MustCompile(IGNORECASE + "^\\.insult (.*)")
 )
 
 type EventHandler struct {
@@ -51,6 +53,7 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 		}
 
 		HandleResponse(fmt.Sprintf("Sorry, found nothing on %s", arg), event, e.Client)
+
 	case TACOS.MatchString(event.Text):
 		matches, err := e.LunchHandler.Search("taco")
 		if err != nil {
@@ -62,9 +65,15 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 		}
 
 		HandleResponse("No restaurant is serving tacos today :white_frowning_face:", event, e.Client)
+
 	case QUESTION.MatchString(event.Text):
 		arg := QUESTION.FindStringSubmatch(event.Text)[1]
 		HandleResponse(fmt.Sprintf("Du kan va%s", arg), event, e.Client)
+
+	case INSULT.MatchString(event.Text):
+		arg := INSULT.FindStringSubmatch(event.Text)[1]
+		insult := insults.GetRandom()
+		HandleResponse(fmt.Sprintf("%s: %s", arg, insult), event, e.Client)
 	}
 }
 

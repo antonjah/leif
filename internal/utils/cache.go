@@ -1,9 +1,11 @@
 package utils
 
 import (
+	"time"
+
 	"github.com/patrickmn/go-cache"
 )
 
 func NewCache() cache.Cache {
-	return *cache.New(cache.NoExpiration, cache.NoExpiration)
+	return *cache.New(1*time.Hour, 1*time.Hour)
 }
