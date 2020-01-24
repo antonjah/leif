@@ -5,6 +5,8 @@ import (
 	"regexp"
 
 	"github.com/antonjah/gleif/internal/constants"
+	"github.com/antonjah/gleif/internal/decide"
+	"github.com/antonjah/gleif/internal/flip"
 
 	"github.com/nlopes/slack"
 	log "github.com/sirupsen/logrus"
@@ -26,6 +28,10 @@ var (
 	INSULT = regexp.MustCompile(IGNORECASE + "^\\.insult (.*)")
 	// HELP regex query matcher
 	HELP = regexp.MustCompile(IGNORECASE + "^\\.help")
+	// DECIDE regex query matcher
+	DECIDE = regexp.MustCompile(IGNORECASE + "^\\.decide")
+	// DECIDE regex query matcher
+	FLIP = regexp.MustCompile(IGNORECASE + "^\\.flip")
 )
 
 // EventHandler provides methods to handle slack events
@@ -85,11 +91,17 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 
 	case INSULT.MatchString(event.Text):
 		arg := INSULT.FindStringSubmatch(event.Text)[1]
-		insult := insults.GetRandom()
+		insult := insults.Get()
 		HandleResponse(fmt.Sprintf("%s: %s", arg, insult), event, e.Client)
 
 	case HELP.MatchString(event.Text):
 		HandleResponse(constants.HELP, event, e.Client)
+
+	case DECIDE.MatchString(event.Text):
+		HandleResponse(decide.Get(), event, e.Client)
+
+	case FLIP.MatchString(event.Text):
+		HandleResponse(flip.Get(), event, e.Client)
 	}
 }
 

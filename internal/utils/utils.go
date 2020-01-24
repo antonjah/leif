@@ -1,7 +1,12 @@
 package utils
 
-import "strings"
+import (
+	"math/rand"
+	"strings"
+	"time"
+)
 
+// FindInSlice searches for a string in a slice and returns all matches
 func FindInSlice(searchArgument string, slice []string) []string {
 	var found []string
 
@@ -12,4 +17,10 @@ func FindInSlice(searchArgument string, slice []string) []string {
 	}
 
 	return found
+}
+
+// GetRandom returns a random index from a slice
+func GetRandom(stringSlice []string) string {
+	rand.Seed(time.Now().Unix())
+	return stringSlice[rand.Intn(len(stringSlice))]
 }

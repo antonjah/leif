@@ -1,15 +1,10 @@
 package insults
 
-import (
-	"math/rand"
-	"time"
-)
+import "github.com/antonjah/gleif/internal/utils"
 
-// GetRandom returns a random insult from the static insult slice
-func GetRandom() string {
-	rand.Seed(time.Now().Unix())
-
-	insults := []string{"If laughter is the best medicine, your face must be curing the world.",
+// Get returns a random insult from the insult slice
+func Get() string {
+	return utils.GetRandom([]string{"If laughter is the best medicine, your face must be curing the world.",
 		"You're so ugly, you scared the crap out of the toilet.",
 		"Your family tree must be a cactus because everybody on it is a prick.",
 		"No I'm not insulting you, I'm describing you.",
@@ -82,7 +77,5 @@ func GetRandom() string {
 		"As an outsider, what do you think of the human race?",
 		"Just because you have one doesn't mean you have to act like one.",
 		"We can always tell when you are lying. Your lips move.",
-		"Are you always this stupid or is today a special occasion?"}
-
-	return insults[rand.Intn(len(insults))]
+		"Are you always this stupid or is today a special occasion?"})
 }
