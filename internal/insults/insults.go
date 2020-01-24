@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// GetRandom returns a random insult from the static insult slice
 func GetRandom() string {
 	rand.Seed(time.Now().Unix())
 

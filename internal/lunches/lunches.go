@@ -5,30 +5,33 @@ import (
 	"regexp"
 	"time"
 
+	"github.com/antonjah/gleif/internal/constants"
+
 	"github.com/PuerkitoBio/goquery"
 	"github.com/patrickmn/go-cache"
 
 	"github.com/antonjah/gleif/internal/utils"
 )
 
-const DAGENSLUNCHURL = "https://www.norran.se/dagenslunch"
-
-type Handler struct {
+// LunchHandler provides methods to lunch requests
+type LunchHandler struct {
 	Cache cache.Cache
 }
 
-func NewHandler(cache cache.Cache) Handler {
-	return Handler{Cache: cache}
+// NewLunchHandler returns a new LunchHandler
+func NewLunchHandler(cache cache.Cache) LunchHandler {
+	return LunchHandler{Cache: cache}
 }
 
-func (h Handler) GetAll() ([]string, error) {
+// GetAll returns all daily lunches
+func (h LunchHandler) GetAll() ([]string, error) {
 	cachedLunches, found := h.Cache.Get("lunches")
 	if found {
 		lunches := cachedLunches.([]string)
 		return lunches, nil
 	}
 
-	response, err := http.Get(DAGENSLUNCHURL)
+	response, err := http.Get(constants.DAGENSLUNCHURL)
 	if err != nil {
 		return []string{}, err
 	}
@@ -44,7 +47,9 @@ func (h Handler) GetAll() ([]string, error) {
 	return lunches, nil
 }
 
-func (h Handler) Search(searchArgument string) ([]string, error) {
+// Search tries to find a specific keyword in the name of all restaurants
+// or in all of their menus
+func (h LunchHandler) Search(searchArgument string) ([]string, error) {
 	lunches, err := h.GetAll()
 	if err != nil {
 		return []string{}, err

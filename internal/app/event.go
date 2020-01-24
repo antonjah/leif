@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"regexp"
 
+	"github.com/antonjah/gleif/internal/constants"
+
 	"github.com/nlopes/slack"
 	log "github.com/sirupsen/logrus"
 
@@ -12,22 +14,33 @@ import (
 )
 
 var (
+	// IGNORECASE base for regex ignore case sensitive
 	IGNORECASE = "(?i)"
-	LUNCH      = regexp.MustCompile(IGNORECASE + "^\\.lunch (.*)")
-	TACOS      = regexp.MustCompile(IGNORECASE + "^\\.tacos")
-	QUESTION   = regexp.MustCompile(IGNORECASE + "^leif(.*)\\?")
-	INSULT     = regexp.MustCompile(IGNORECASE + "^\\.insult (.*)")
+	// LUNCH regex query matcher
+	LUNCH = regexp.MustCompile(IGNORECASE + "^\\.lunch (.*)")
+	// TACOS regex query matcher
+	TACOS = regexp.MustCompile(IGNORECASE + "^\\.tacos")
+	// QUESTION regex query matcher
+	QUESTION = regexp.MustCompile(IGNORECASE + "^leif(.*)\\?")
+	// INSULT regex query matcher
+	INSULT = regexp.MustCompile(IGNORECASE + "^\\.insult (.*)")
+	// HELP regex query matcher
+	HELP = regexp.MustCompile(IGNORECASE + "^\\.help")
 )
 
+// EventHandler provides methods to handle slack events
 type EventHandler struct {
 	Client       *slack.Client
-	LunchHandler lunches.Handler
+	LunchHandler lunches.LunchHandler
 }
 
-func NewEventHandler(client *slack.Client, lunchHandler lunches.Handler) EventHandler {
+// NewEventHandler returns a new EventHandler containing a slack client
+// and LunchHandler
+func NewEventHandler(client *slack.Client, lunchHandler lunches.LunchHandler) EventHandler {
 	return EventHandler{Client: client, LunchHandler: lunchHandler}
 }
 
+// Handle filters bot events and passes events to respective sub handler
 func (e EventHandler) Handle(msg slack.RTMEvent) {
 	switch event := msg.Data.(type) {
 	case *slack.MessageEvent:
@@ -74,6 +87,9 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 		arg := INSULT.FindStringSubmatch(event.Text)[1]
 		insult := insults.GetRandom()
 		HandleResponse(fmt.Sprintf("%s: %s", arg, insult), event, e.Client)
+
+	case HELP.MatchString(event.Text):
+		HandleResponse(constants.HELP, event, e.Client)
 	}
 }
 

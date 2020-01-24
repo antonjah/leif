@@ -8,11 +8,13 @@ import (
 	"github.com/antonjah/gleif/internal/utils"
 )
 
+// Config app configuration
 type Config struct {
-	Cache cache.Cache
+	Cache      cache.Cache
 	SlackToken string `env:"SLACK_TOKEN,required"`
 }
 
+// NewConfig returns a new app configuration with ENVs loaded
 func NewConfig() Config {
 	appCache := utils.NewCache()
 	config := Config{Cache: appCache}

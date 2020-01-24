@@ -6,16 +6,18 @@ import (
 	"github.com/antonjah/gleif/internal/lunches"
 )
 
+// Run loads configs and initializes handlers.
+// Then it starts all goroutines and starts the app
 func Run() {
 	config := NewConfig()
 
-	lunchHandler := lunches.NewHandler(config.Cache)
-
 	client := slack.New(config.SlackToken)
+
+	lunchHandler := lunches.NewLunchHandler(config.Cache)
+	eventHandler := NewEventHandler(client, lunchHandler)
+
 	rtm := client.NewRTM()
 	go rtm.ManageConnection()
-
-	eventHandler := NewEventHandler(client, lunchHandler)
 
 	for msg := range rtm.IncomingEvents {
 		eventHandler.Handle(msg)
