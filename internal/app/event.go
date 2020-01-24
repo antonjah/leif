@@ -30,7 +30,7 @@ var (
 	HELP = regexp.MustCompile(IGNORECASE + "^\\.help")
 	// DECIDE regex query matcher
 	DECIDE = regexp.MustCompile(IGNORECASE + "^\\.decide")
-	// DECIDE regex query matcher
+	// FLIP regex query matcher
 	FLIP = regexp.MustCompile(IGNORECASE + "^\\.flip")
 )
 
