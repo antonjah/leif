@@ -1,2 +1,2 @@
 # gleif
-Leif, but in Go
+[https://github.com/antonjah/leif](Leif), but in Go
