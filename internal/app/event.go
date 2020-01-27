@@ -7,6 +7,7 @@ import (
 	"github.com/antonjah/gleif/internal/constants"
 	"github.com/antonjah/gleif/internal/decide"
 	"github.com/antonjah/gleif/internal/flip"
+	"github.com/antonjah/gleif/internal/questions"
 
 	"github.com/nlopes/slack"
 	log "github.com/sirupsen/logrus"
@@ -65,6 +66,7 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 		matches, err := e.LunchHandler.Search(arg)
 		if err != nil {
 			log.Error(err)
+			return
 		}
 		if len(matches) > 0 {
 			HandleResponse(matches, event, e.Client)
@@ -77,6 +79,7 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 		matches, err := e.LunchHandler.Search("taco")
 		if err != nil {
 			log.Error(err)
+			return
 		}
 		if len(matches) > 0 {
 			HandleResponse(matches, event, e.Client)
@@ -87,7 +90,8 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 
 	case QUESTION.MatchString(event.Text):
 		arg := QUESTION.FindStringSubmatch(event.Text)[1]
-		HandleResponse(fmt.Sprintf("Du kan va%s", arg), event, e.Client)
+		answer := questions.GetAnswer(arg)
+		HandleResponse(answer, event, e.Client)
 
 	case INSULT.MatchString(event.Text):
 		arg := INSULT.FindStringSubmatch(event.Text)[1]
