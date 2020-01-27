@@ -1,6 +1,8 @@
 package questions
 
 import (
+	"fmt"
+
 	"gitlab.com/psheets/ddgquery"
 )
 
@@ -12,7 +14,7 @@ func GetAnswer(arg string) string {
 	if len(results) > 0 {
 		answer = results[0].Info
 		if results[0].Ref != "" {
-			answer = answer + " - " + results[0].Ref
+			answer = fmt.Sprintf("%s [%s]", answer, results[0].Ref)
 		}
 	}
 
