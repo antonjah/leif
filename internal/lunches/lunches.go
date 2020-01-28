@@ -31,7 +31,7 @@ func (h LunchHandler) GetAll() ([]string, error) {
 		return lunches, nil
 	}
 
-	response, err := http.Get(constants.DAGENSLUNCHURL)
+	response, err := http.Get(constants.DagensLunchURL)
 	if err != nil {
 		return []string{}, err
 	}

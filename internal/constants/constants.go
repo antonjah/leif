@@ -9,7 +9,11 @@ Leif <question>?
 .insult <user> - Make Leif insult given username
 .help - Show this help section
 .decide <arg> - Decide whether or not given argument is true or false
-.flip - Flip a coin`
+.flip - Flip a coin
+.tldr - Find information about a command`
 
-// DAGENSLUNCHURL holds the URL to Norrans' daily lunch list
-const DAGENSLUNCHURL = "https://www.norran.se/dagenslunch"
+// DagensLunchURL holds the URL to Norrans' daily lunch list
+const DagensLunchURL = "https://www.norran.se/dagenslunch"
+
+// TLDRBaseURL holds the base used for formatting the GET TLDR URL
+const TLDRBaseURL = "https://api.github.com/repos/tldr-pages/tldr/contents/pages/common/%s.md?ref=master"

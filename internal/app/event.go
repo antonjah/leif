@@ -8,6 +8,7 @@ import (
 	"github.com/antonjah/gleif/internal/decide"
 	"github.com/antonjah/gleif/internal/flip"
 	"github.com/antonjah/gleif/internal/questions"
+	"github.com/antonjah/gleif/internal/tldr"
 
 	"github.com/nlopes/slack"
 	log "github.com/sirupsen/logrus"
@@ -33,6 +34,8 @@ var (
 	DECIDE = regexp.MustCompile(IGNORECASE + "^\\.decide")
 	// FLIP regex query matcher
 	FLIP = regexp.MustCompile(IGNORECASE + "^\\.flip")
+	// TLDR regex query matcher
+	TLDR = regexp.MustCompile(IGNORECASE + "^\\.tldr (.*)")
 )
 
 // EventHandler provides methods to handle slack events
@@ -106,6 +109,10 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 
 	case FLIP.MatchString(event.Text):
 		HandleResponse(flip.Get(), event, e.Client)
+
+	case TLDR.MatchString(event.Text):
+		arg := TLDR.FindStringSubmatch(event.Text)[1]
+		HandleResponse(tldr.GetTLDR(arg), event, e.Client)
 	}
 }
 
