@@ -11,7 +11,7 @@ import (
 	"github.com/antonjah/leif/internal/tldr"
 
 	"github.com/nlopes/slack"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 
 	"github.com/antonjah/leif/internal/insults"
 	"github.com/antonjah/leif/internal/lunches"
@@ -36,18 +36,21 @@ var (
 	FLIP = regexp.MustCompile(IGNORECASE + "^\\.flip")
 	// TLDR regex query matcher
 	TLDR = regexp.MustCompile(IGNORECASE + "^\\.tldr (.*)")
+	// LOG regex query matcher
+	LOG = regexp.MustCompile(IGNORECASE + "^\\.log (.*)")
 )
 
 // EventHandler provides methods to handle slack events
 type EventHandler struct {
 	Client       *slack.Client
 	LunchHandler lunches.LunchHandler
+	Logger       *logrus.Logger
 }
 
 // NewEventHandler returns a new EventHandler containing a slack client
 // and LunchHandler
-func NewEventHandler(client *slack.Client, lunchHandler lunches.LunchHandler) EventHandler {
-	return EventHandler{Client: client, LunchHandler: lunchHandler}
+func NewEventHandler(client *slack.Client, lunchHandler lunches.LunchHandler, logger *logrus.Logger) EventHandler {
+	return EventHandler{Client: client, LunchHandler: lunchHandler, Logger: logger}
 }
 
 // Handle filters bot events and passes events to respective sub handler
@@ -68,51 +71,55 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 		arg := LUNCH.FindStringSubmatch(event.Text)[1]
 		matches, err := e.LunchHandler.Search(arg)
 		if err != nil {
-			log.Error(err)
+			e.Logger.Error(err)
 			return
 		}
 		if len(matches) > 0 {
-			HandleResponse(matches, event, e.Client)
+			HandleResponse(matches, event, e.Client, e.Logger)
 			return
 		}
 
-		HandleResponse(fmt.Sprintf("Sorry, found nothing on %s", arg), event, e.Client)
+		HandleResponse(fmt.Sprintf("Sorry, found nothing on %s", arg), event, e.Client, e.Logger)
 
 	case TACOS.MatchString(event.Text):
 		matches, err := e.LunchHandler.Search("taco")
 		if err != nil {
-			log.Error(err)
+			e.Logger.Error(err)
 			return
 		}
 		if len(matches) > 0 {
-			HandleResponse(matches, event, e.Client)
+			HandleResponse(matches, event, e.Client, e.Logger)
 			return
 		}
 
-		HandleResponse("No restaurant is serving tacos today :white_frowning_face:", event, e.Client)
+		HandleResponse("No restaurant is serving tacos today :white_frowning_face:", event, e.Client, e.Logger)
 
 	case QUESTION.MatchString(event.Text):
 		arg := QUESTION.FindStringSubmatch(event.Text)[1]
 		answer := questions.GetAnswer(arg)
-		HandleResponse(answer, event, e.Client)
+		HandleResponse(answer, event, e.Client, e.Logger)
 
 	case INSULT.MatchString(event.Text):
 		arg := INSULT.FindStringSubmatch(event.Text)[1]
 		insult := insults.Get()
-		HandleResponse(fmt.Sprintf("%s: %s", arg, insult), event, e.Client)
+		HandleResponse(fmt.Sprintf("%s: %s", arg, insult), event, e.Client, e.Logger)
 
 	case HELP.MatchString(event.Text):
-		HandleResponse(constants.HELP, event, e.Client)
+		HandleResponse(constants.HELP, event, e.Client, e.Logger)
 
 	case DECIDE.MatchString(event.Text):
-		HandleResponse(decide.Get(), event, e.Client)
+		HandleResponse(decide.Get(), event, e.Client, e.Logger)
 
 	case FLIP.MatchString(event.Text):
-		HandleResponse(flip.Get(), event, e.Client)
+		HandleResponse(flip.Get(), event, e.Client, e.Logger)
 
 	case TLDR.MatchString(event.Text):
 		arg := TLDR.FindStringSubmatch(event.Text)[1]
-		HandleResponse(tldr.GetTLDR(arg), event, e.Client)
+		HandleResponse(tldr.GetTLDR(arg, e.Logger), event, e.Client, e.Logger)
+
+	case LOG.MatchString(event.Text):
+		arg := LOG.FindStringSubmatch(event.Text)[1]
+		HandleResponse(GetLogRecords(arg), event, e.Client, e.Logger)
 	}
 }
 

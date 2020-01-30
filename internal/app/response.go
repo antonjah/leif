@@ -4,12 +4,12 @@ import (
 	"strings"
 
 	"github.com/nlopes/slack"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 // HandleResponse typechecks the input message and sends the
 // response to specified slack channel
-func HandleResponse(message interface{}, event *slack.MessageEvent, client *slack.Client) {
+func HandleResponse(message interface{}, event *slack.MessageEvent, client *slack.Client, logger *logrus.Logger) {
 	var formattedMessage string
 
 	switch v := message.(type) {
@@ -20,10 +20,10 @@ func HandleResponse(message interface{}, event *slack.MessageEvent, client *slac
 	case []byte:
 		formattedMessage = string(message.([]byte))
 	default:
-		log.Errorf("Unknown message type: %v", v)
+		logger.Errorf("Unknown message type: %v", v)
 	}
 
 	if _, _, _, err := client.SendMessage(event.Channel, slack.MsgOptionText(formattedMessage, false)); err != nil {
-		log.Errorf("Failed to send message: %v", err)
+		logger.Errorf("Failed to send message: %v", err)
 	}
 }

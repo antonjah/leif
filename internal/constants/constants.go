@@ -10,7 +10,8 @@ Leif <question>?
 .help - Show this help section
 .decide <arg> - Decide whether or not given argument is true or false
 .flip - Flip a coin
-.tldr - Find information about a command`
+.tldr - Find information about a command
+.log <level> - Get Leif logs`
 
 // DagensLunchURL holds the URL to Norrans' daily lunch list
 const DagensLunchURL = "https://www.norran.se/dagenslunch"
