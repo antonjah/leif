@@ -5,7 +5,7 @@ import (
 	"github.com/patrickmn/go-cache"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/antonjah/gleif/internal/utils"
+	"github.com/antonjah/leif/internal/utils"
 )
 
 // Config app configuration

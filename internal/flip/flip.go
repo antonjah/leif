@@ -1,6 +1,6 @@
 package flip
 
-import "github.com/antonjah/gleif/internal/utils"
+import "github.com/antonjah/leif/internal/utils"
 
 // Get returns an answer for heads or tails
 func Get() string {

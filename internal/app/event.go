@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/antonjah/gleif/internal/constants"
-	"github.com/antonjah/gleif/internal/decide"
-	"github.com/antonjah/gleif/internal/flip"
-	"github.com/antonjah/gleif/internal/questions"
-	"github.com/antonjah/gleif/internal/tldr"
+	"github.com/antonjah/leif/internal/constants"
+	"github.com/antonjah/leif/internal/decide"
+	"github.com/antonjah/leif/internal/flip"
+	"github.com/antonjah/leif/internal/questions"
+	"github.com/antonjah/leif/internal/tldr"
 
 	"github.com/nlopes/slack"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/antonjah/gleif/internal/insults"
-	"github.com/antonjah/gleif/internal/lunches"
+	"github.com/antonjah/leif/internal/insults"
+	"github.com/antonjah/leif/internal/lunches"
 )
 
 var (

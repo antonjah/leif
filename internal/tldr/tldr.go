@@ -7,9 +7,11 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/antonjah/gleif/internal/constants"
+	"github.com/antonjah/leif/internal/constants"
 )
 
+// GetTLDR tries to get information about a command
+// from the awesome TLDR.io
 func GetTLDR(arg string) string {
 	req, _ := http.NewRequest("GET", fmt.Sprintf(constants.TLDRBaseURL, arg), nil)
 	req.Header.Add("accept", "application/vnd.github.VERSION.raw")

@@ -1,6 +1,6 @@
 package insults
 
-import "github.com/antonjah/gleif/internal/utils"
+import "github.com/antonjah/leif/internal/utils"
 
 // Get returns a random insult from the insult slice
 func Get() string {

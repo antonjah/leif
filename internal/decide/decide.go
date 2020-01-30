@@ -1,7 +1,7 @@
 package decide
 
 import (
-	"github.com/antonjah/gleif/internal/utils"
+	"github.com/antonjah/leif/internal/utils"
 )
 
 // Get returns a random answer to a scenario

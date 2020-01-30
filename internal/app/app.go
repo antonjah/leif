@@ -3,7 +3,7 @@ package app
 import (
 	"github.com/nlopes/slack"
 
-	"github.com/antonjah/gleif/internal/lunches"
+	"github.com/antonjah/leif/internal/lunches"
 )
 
 // Run loads configs and initializes handlers.

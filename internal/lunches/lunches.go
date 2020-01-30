@@ -5,12 +5,11 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/antonjah/gleif/internal/constants"
+	"github.com/antonjah/leif/internal/constants"
+	"github.com/antonjah/leif/internal/utils"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/patrickmn/go-cache"
-
-	"github.com/antonjah/gleif/internal/utils"
 )
 
 // LunchHandler provides methods to lunch requests
