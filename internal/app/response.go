@@ -7,7 +7,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// HandleResponse typechecks the input message and sends the
+// HandleResponse type checks the input message and sends the
 // response to specified slack channel
 func HandleResponse(message interface{}, event *slack.MessageEvent, client *slack.Client, logger *logrus.Logger) {
 	var formattedMessage string

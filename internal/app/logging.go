@@ -11,11 +11,7 @@ import (
 )
 
 // LogRecord holds a log record line from the logging file
-type LogRecord struct {
-	Time  string
-	Level string
-	MSG   string
-}
+type LogRecord struct{ Time, Level, MSG string }
 
 func logRecordsFromFile() []LogRecord {
 	contents, _ := ioutil.ReadFile("leif.log")
