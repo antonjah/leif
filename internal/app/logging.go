@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"regexp"
@@ -62,11 +63,13 @@ func GetLogRecords(level string) string {
 // InitLogger creates a new logrus file logger and returns it
 func InitLogger() *logrus.Logger {
 	f, _ := os.OpenFile("leif.log", os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0644)
-	Formatter := new(logrus.TextFormatter)
+	multiWriter := io.MultiWriter(os.Stdout, f)
 
 	logger := logrus.New()
+
+	Formatter := new(logrus.TextFormatter)
 	logger.SetFormatter(Formatter)
-	logger.SetOutput(f)
+	logger.SetOutput(multiWriter)
 
 	return logger
 }
