@@ -60,7 +60,7 @@ func GetLogRecords(level string) string {
 	return fmt.Sprintf("Found no %s logs", level)
 }
 
-// InitLogger creates a new logrus file logger and returns it
+// InitLogger creates a new logrus logger using a multiwriter and returns it
 func InitLogger() *logrus.Logger {
 	f, _ := os.OpenFile("leif.log", os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0644)
 	multiWriter := io.MultiWriter(os.Stdout, f)
