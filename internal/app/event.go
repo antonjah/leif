@@ -101,7 +101,10 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 
 	case INSULT.MatchString(event.Text):
 		arg := INSULT.FindStringSubmatch(event.Text)[1]
-		insult := insults.Get()
+		insult, err := insults.Get()
+		if err != nil {
+			e.Logger.Error(err)
+		}
 		HandleResponse(fmt.Sprintf("%s: %s", arg, insult), event, e.Client, e.Logger)
 
 	case HELP.MatchString(event.Text):
