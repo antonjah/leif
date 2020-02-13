@@ -92,6 +92,20 @@ Make Leif decide something for you
 .decide do we really need these unit tests?
 ```
 
+### Log
+Get Leif logs. Supported levels are:  
+* Info
+* Warning
+* Error
+* Fatal
+* Trace
+* Debug
+* Panic
+
+```bash
+.log error
+```
+
 ### Help
 
 Output help and known commands
