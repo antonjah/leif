@@ -6,8 +6,7 @@ import (
 	"github.com/antonjah/leif/internal/lunches"
 )
 
-// Run loads configs and initializes handlers.
-// Then it starts all goroutines and starts the app
+// Run loads configs, initializes handlers and starts Leif
 func Run() {
 	logger := InitLogger()
 
