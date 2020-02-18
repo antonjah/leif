@@ -1,5 +1,5 @@
+[![](https://goreportcard.com/badge/antonjah/leif)](https://goreportcard.com/report/github.com/antonjah/leif "")
 [![](https://img.shields.io/docker/pulls/antonjah/leif.svg)](https://microbadger.com/images/antonjah/leif "")
-[![](https://images.microbadger.com/badges/image/antonjah/leif.svg)](https://microbadger.com/images/antonjah/leif "")
 [![](https://images.microbadger.com/badges/version/antonjah/leif.svg)](https://microbadger.com/images/antonjah/leif "")
 
 # <img src="img/leif.png" width="50" height="50"/> Leif
