@@ -67,6 +67,15 @@ Insulting someone. What more do you need?
 .insult @Simon
 ```
 
+### GitLab
+
+Given that the `GITLAB_TOKEN` and `GITLAB_BASE_URL` ENVs are set you can search GitLab for  
+commits, projects and merge requests
+
+```bash
+.gitlab JIRAISSUE1234
+```
+
 ### TLDR
 
 Leif will try to get information on how to use a specific command

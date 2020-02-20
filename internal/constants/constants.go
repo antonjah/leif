@@ -5,6 +5,7 @@ const HELP = `*Random question*:
 Leif <question>?
 *Specific commands*:
 .lunch <restaurant> - Show the lunch menu for given restaurant
+.gitlab <search> - Search GitLab commits, projects and merge requests
 .tacos - Find out if a nearby restaurant is serving some kind of taco today
 .insult <user> - Make Leif insult given username
 .help - Show this help section

@@ -16,7 +16,7 @@ func Run() {
 	client := slack.New(config.SlackToken)
 
 	lunchHandler := lunches.NewLunchHandler(config.Cache)
-	eventHandler := NewEventHandler(client, lunchHandler, logger)
+	eventHandler := NewEventHandler(client, lunchHandler, logger, config)
 
 	logger.Info("Connecting to slack...")
 	rtm := client.NewRTM()

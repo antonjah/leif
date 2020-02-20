@@ -10,8 +10,10 @@ import (
 
 // Config app configuration
 type Config struct {
-	Cache      cache.Cache
-	SlackToken string `env:"SLACK_TOKEN,required"`
+	Cache       cache.Cache
+	SlackToken  string `env:"SLACK_TOKEN,required"`
+	GitLabToken string `env:"GITLAB_TOKEN"`
+	GitLabURL   string `env:"GITLAB_BASE_URL"`
 }
 
 // NewConfig returns a new app configuration with ENVs loaded
