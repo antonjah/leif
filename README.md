@@ -23,6 +23,12 @@ Make sure you have the generated tokens from the [requirements](#requirements) s
 docker run -e SLACK_TOKEN=<slack-token> antonjah/leif
 ```
 
+Or running with GitLab functionality:
+
+```bash
+docker run -e SLACK_TOKEN=<slack-token> -e GITLAB_TOKEN=<gitlab-token> -e GITLAB_BASE_URL=<url> antonjah/leif
+```
+
 ## Commands
 
 List of possible commands
