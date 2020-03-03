@@ -11,7 +11,7 @@ type ResultSet struct {
 	Projects      []*gitlab.Project
 	MergeRequests []*gitlab.MergeRequest
 	// Deprecated: Commits since introduction of ElasticSearch requirements
-	Commits       []*gitlab.Commit
+	Commits []*gitlab.Commit
 }
 
 func (r *ResultSet) ToString(arg string) string {

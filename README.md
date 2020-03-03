@@ -23,10 +23,10 @@ Make sure you have the generated tokens from the [requirements](#requirements) s
 docker run -e SLACK_TOKEN=<slack-token> antonjah/leif
 ```
 
-Or running with GitLab functionality:
+Running with all functionality:
 
 ```bash
-docker run -e SLACK_TOKEN=<slack-token> -e GITLAB_TOKEN=<gitlab-token> -e GITLAB_BASE_URL=<url> antonjah/leif
+docker run -e SLACK_TOKEN=<slack-token> -e GITLAB_TOKEN=<gitlab-token> -e GITLAB_BASE_URL=<url> -e POSTMORD_TOKEN=<postmord-token> antonjah/leif
 ```
 
 ## Commands
@@ -80,6 +80,15 @@ commits, projects and merge requests
 
 ```bash
 .gitlab JIRAISSUE1234
+```
+
+### PostMord
+
+Given that the `POSTMORD_TOKEN` ENV is set you can get the shipment status for your parcel
+from PostNord
+
+```bash
+.postmord 1234567890
 ```
 
 ### TLDR

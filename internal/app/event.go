@@ -8,6 +8,7 @@ import (
 	"github.com/antonjah/leif/internal/pkg/decide"
 	"github.com/antonjah/leif/internal/pkg/flip"
 	"github.com/antonjah/leif/internal/pkg/gitlab"
+	"github.com/antonjah/leif/internal/pkg/postmord"
 	"github.com/antonjah/leif/internal/pkg/questions"
 	"github.com/antonjah/leif/internal/pkg/tldr"
 
@@ -30,6 +31,7 @@ var (
 	TLDR       = regexp.MustCompile(IGNORECASE + "^\\.tldr (.*)")
 	LOG        = regexp.MustCompile(IGNORECASE + "^\\.log (.*)")
 	GITLAB     = regexp.MustCompile(IGNORECASE + "^\\.gitlab (.*)")
+	POSTMORD   = regexp.MustCompile(IGNORECASE + "^\\.postmord (.*)")
 )
 
 // EventHandler provides methods to handle slack events
@@ -124,6 +126,14 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 		}
 		arg := GITLAB.FindStringSubmatch(event.Text)[1]
 		HandleResponse(gitlab.Search(arg, e.Logger, e.Config.GitLabToken, e.Config.GitLabURL), event, e.Client, e.Logger)
+
+	case POSTMORD.MatchString(event.Text):
+		if e.Config.PostMordToken == "" {
+			HandleResponse("PostMord functionality is disabled, set ENVs to enable", event, e.Client, e.Logger)
+			return
+		}
+		arg := POSTMORD.FindStringSubmatch(event.Text)[1]
+		HandleResponse(postmord.Search(arg, e.Logger, e.Config.PostMordToken), event, e.Client, e.Logger)
 	}
 }
 

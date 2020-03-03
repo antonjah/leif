@@ -12,7 +12,8 @@ Leif <question>?
 .decide <arg> - Decide whether or not given argument is true or false
 .flip - Flip a coin
 .tldr <cmd> - Find information about a command
-.log <level> - Get Leif logs`
+.log <level> - Get Leif logs
+.postmord <parcel-id> get the shipment status for your parcel(s) from PostNord`
 
 // DagensLunchURL holds the URL to Norrans' daily lunch list
 const DagensLunchURL = "https://www.norran.se/dagenslunch"
