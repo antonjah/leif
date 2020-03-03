@@ -5,8 +5,8 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/antonjah/leif/internal/constants"
-	"github.com/antonjah/leif/internal/utils"
+	"github.com/antonjah/leif/internal/pkg/constants"
+	"github.com/antonjah/leif/internal/pkg/utils"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/patrickmn/go-cache"

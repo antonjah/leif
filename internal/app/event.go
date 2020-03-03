@@ -4,18 +4,18 @@ import (
 	"fmt"
 	"regexp"
 
-	"github.com/antonjah/leif/internal/constants"
-	"github.com/antonjah/leif/internal/decide"
-	"github.com/antonjah/leif/internal/flip"
-	"github.com/antonjah/leif/internal/gitlab"
-	"github.com/antonjah/leif/internal/questions"
-	"github.com/antonjah/leif/internal/tldr"
+	"github.com/antonjah/leif/internal/pkg/constants"
+	"github.com/antonjah/leif/internal/pkg/decide"
+	"github.com/antonjah/leif/internal/pkg/flip"
+	"github.com/antonjah/leif/internal/pkg/gitlab"
+	"github.com/antonjah/leif/internal/pkg/questions"
+	"github.com/antonjah/leif/internal/pkg/tldr"
 
 	"github.com/nlopes/slack"
 	"github.com/sirupsen/logrus"
 
-	"github.com/antonjah/leif/internal/insults"
-	"github.com/antonjah/leif/internal/lunches"
+	"github.com/antonjah/leif/internal/pkg/insults"
+	"github.com/antonjah/leif/internal/pkg/lunches"
 )
 
 var (

@@ -3,7 +3,7 @@ package app
 import (
 	"github.com/nlopes/slack"
 
-	"github.com/antonjah/leif/internal/lunches"
+	"github.com/antonjah/leif/internal/pkg/lunches"
 )
 
 // Run loads configs, initializes handlers and starts Leif

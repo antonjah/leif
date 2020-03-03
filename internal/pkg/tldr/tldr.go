@@ -7,7 +7,7 @@ import (
 
 	"github.com/sirupsen/logrus"
 
-	"github.com/antonjah/leif/internal/constants"
+	"github.com/antonjah/leif/internal/pkg/constants"
 )
 
 // GetTLDR tries to get information about a command

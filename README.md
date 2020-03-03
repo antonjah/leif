@@ -2,7 +2,7 @@
 [![](https://img.shields.io/docker/pulls/antonjah/leif.svg)](https://microbadger.com/images/antonjah/leif "")
 [![](https://images.microbadger.com/badges/version/antonjah/leif.svg)](https://microbadger.com/images/antonjah/leif "")
 
-# <img src="img/leif.png" width="50" height="50"/> Leif
+# <img src="assets/leif.png" width="50" height="50"/> Leif
 
 Leif is a really stupid Go bot for Slack
 
