@@ -6,6 +6,7 @@ import (
 
 	"github.com/antonjah/leif/internal/pkg/constants"
 	"github.com/antonjah/leif/internal/pkg/decide"
+	"github.com/antonjah/leif/internal/pkg/f1"
 	"github.com/antonjah/leif/internal/pkg/flip"
 	"github.com/antonjah/leif/internal/pkg/gitlab"
 	"github.com/antonjah/leif/internal/pkg/postmord"
@@ -21,6 +22,7 @@ import (
 
 var (
 	IGNORECASE = "(?i)"
+	F1         = regexp.MustCompile(IGNORECASE + "^\\.f1")
 	LUNCH      = regexp.MustCompile(IGNORECASE + "^\\.lunch (.*)")
 	TACOS      = regexp.MustCompile(IGNORECASE + "^\\.tacos")
 	QUESTION   = regexp.MustCompile(IGNORECASE + "^leif(.*)\\?")
@@ -62,6 +64,8 @@ func (e EventHandler) Handle(msg slack.RTMEvent) {
 
 func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 	switch {
+	case F1.MatchString(event.Text):
+		HandleResponse(f1.GetLatestResult(e.Logger), event, e.Client, e.Logger)
 	case LUNCH.MatchString(event.Text):
 		arg := LUNCH.FindStringSubmatch(event.Text)[1]
 		matches, err := e.LunchHandler.Search(arg)

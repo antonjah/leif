@@ -4,6 +4,7 @@ package constants
 const HELP = `*Random question*:
 Leif <question>?
 *Specific commands*:
+.f1 - Get the latest grand prix results
 .lunch <restaurant> - Show the lunch menu for given restaurant
 .gitlab <search> - Search GitLab commits, projects and merge requests
 .tacos - Find out if a nearby restaurant is serving some kind of taco today

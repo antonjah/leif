@@ -48,6 +48,14 @@ Leif how high is the empire state building?
 Leif what's the IMDB score for Band of Brothers?
 ```
 
+### F1 Results
+
+Get the latest grand prix results
+
+```bash
+.f1
+```
+
 ### Lunch ([norran](https://norran.se))
 
 Search for something you'd like to eat or get a specific menu for a restaurant
