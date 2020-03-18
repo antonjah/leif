@@ -21,18 +21,19 @@ type countryStatus struct {
 	Deaths       int    `json:"deaths"`
 	MortalityPer string `json:"mortalityPer"`
 	RecoveredPer string `json:"recoveredPer"`
+	LastUpdated  string `json:"lastUpdated"`
 }
 
 func (s *countryStatus) toString() string {
 	if s.Province != "" {
 		return fmt.Sprintf(
-			"Province: %s\nConfirmed: %d\nRecovered: %d\nDeaths: %d\nMortality Rate: %s%%\nRecover Rate: %s%%\n\n",
-			s.Province, s.Confirmed, s.Recovered, s.Deaths, s.MortalityPer, s.RecoveredPer,
+			"Province: %s\nConfirmed: %d\nRecovered: %d\nDeaths: %d\nMortality Rate: %s%%\nRecover Rate: %s%%\nLast Updated: %s\n\n",
+			s.Province, s.Confirmed, s.Recovered, s.Deaths, s.MortalityPer, s.RecoveredPer, s.LastUpdated,
 		)
 	} else {
 		return fmt.Sprintf(
-			"Confirmed: %d\nRecovered: %d\nDeaths: %d\nMortality Rate: %s%%\nRecover Rate: %s%%\n\n",
-			s.Confirmed, s.Recovered, s.Deaths, s.MortalityPer, s.RecoveredPer,
+			"Confirmed: %d\nRecovered: %d\nDeaths: %d\nMortality Rate: %s%%\nRecover Rate: %s%%\nLast Updated: %s\n\n",
+			s.Confirmed, s.Recovered, s.Deaths, s.MortalityPer, s.RecoveredPer, s.LastUpdated,
 		)
 	}
 }
