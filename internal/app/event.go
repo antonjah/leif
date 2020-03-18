@@ -24,6 +24,7 @@ var (
 	IGNORECASE = "(?i)"
 	F1         = regexp.MustCompile(IGNORECASE + "^\\.f1")
 	LUNCH      = regexp.MustCompile(IGNORECASE + "^\\.lunch (.*)")
+	LUNCHES    = regexp.MustCompile(IGNORECASE + "^\\.lunches")
 	TACOS      = regexp.MustCompile(IGNORECASE + "^\\.tacos")
 	QUESTION   = regexp.MustCompile(IGNORECASE + "^leif(.*)\\?")
 	INSULT     = regexp.MustCompile(IGNORECASE + "^\\.insult (.*)")
@@ -66,9 +67,13 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 	switch {
 	case F1.MatchString(event.Text):
 		HandleResponse(f1.GetLatestResult(e.Logger), event, e.Client, e.Logger)
+
+	case LUNCHES.MatchString(event.Text):
+		HandleResponse(e.LunchHandler.GetAll(e.Logger), event, e.Client, e.Logger)
+
 	case LUNCH.MatchString(event.Text):
 		arg := LUNCH.FindStringSubmatch(event.Text)[1]
-		matches, err := e.LunchHandler.Search(arg)
+		matches, err := e.LunchHandler.Search(arg, e.Logger)
 		if err != nil {
 			e.Logger.Error(err)
 			return
@@ -81,7 +86,7 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 		HandleResponse(fmt.Sprintf("Sorry, found nothing on %s", arg), event, e.Client, e.Logger)
 
 	case TACOS.MatchString(event.Text):
-		matches, err := e.LunchHandler.Search("taco")
+		matches, err := e.LunchHandler.Search("taco", e.Logger)
 		if err != nil {
 			e.Logger.Error(err)
 			return

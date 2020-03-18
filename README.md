@@ -65,6 +65,14 @@ Search for something you'd like to eat or get a specific menu for a restaurant
 .lunch pizzeria mama mia
 ```
 
+### Lunches ([norran](https://norran.se))
+
+Get all lunch menus for today
+
+```bash
+.lunch
+```
+
 ### Tacos
 
 If you want to know if any restaurants are serving tacos today, there's a command for that!

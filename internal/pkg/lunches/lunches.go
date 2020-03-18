@@ -5,6 +5,8 @@ import (
 	"regexp"
 	"time"
 
+	"github.com/sirupsen/logrus"
+
 	"github.com/antonjah/leif/internal/pkg/constants"
 	"github.com/antonjah/leif/internal/pkg/utils"
 
@@ -23,46 +25,41 @@ func NewLunchHandler(cache cache.Cache) LunchHandler {
 }
 
 // GetAll returns all daily lunches
-func (h LunchHandler) GetAll() ([]string, error) {
+func (h LunchHandler) GetAll(logger *logrus.Logger) []string {
 	cachedLunches, found := h.Cache.Get("lunches")
 	if found {
 		lunches := cachedLunches.([]string)
-		return lunches, nil
+		return lunches
 	}
 
 	response, err := http.Get(constants.DagensLunchURL)
 	if err != nil {
-		return []string{}, err
+		logger.Error(err)
+		return []string{"Failed to get lunches, please check my logs"}
 	}
 	defer response.Body.Close()
 
-	lunches, err := lunchListFromResponse(response)
-	if err != nil {
-		return []string{}, err
-	}
+	lunches := lunchListFromResponse(response, logger)
 
 	h.Cache.Set("lunches", lunches, 1*time.Hour)
 
-	return lunches, nil
+	return lunches
 }
 
 // Search tries to find a specific keyword in the name of all restaurants
 // or in all of their menus
-func (h LunchHandler) Search(searchArgument string) ([]string, error) {
-	lunches, err := h.GetAll()
-	if err != nil {
-		return []string{}, err
-	}
-
+func (h LunchHandler) Search(searchArgument string, logger *logrus.Logger) ([]string, error) {
+	lunches := h.GetAll(logger)
 	matches := utils.FindInSlice(searchArgument, lunches)
 
 	return matches, nil
 }
 
-func lunchListFromResponse(response *http.Response) ([]string, error) {
+func lunchListFromResponse(response *http.Response, logger *logrus.Logger) []string {
 	doc, err := goquery.NewDocumentFromReader(response.Body)
 	if err != nil {
-		return []string{}, err
+		logger.Error(err)
+		return []string{"Failed to get lunches, please check my logs"}
 	}
 
 	var lunches []string
@@ -70,9 +67,9 @@ func lunchListFromResponse(response *http.Response) ([]string, error) {
 	doc.Find(".card-body.pt-2").Each(func(i int, s *goquery.Selection) {
 		s.Attr("class")
 		re := regexp.MustCompile(`\s+`)
-		lunchRow := re.ReplaceAllString(s.Text(), " ")
+		lunchRow := "-" + re.ReplaceAllString(s.Text(), " ")
 		lunches = append(lunches, lunchRow)
 	})
 
-	return lunches, nil
+	return lunches
 }

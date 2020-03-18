@@ -6,6 +6,7 @@ Leif <question>?
 *Specific commands*:
 .f1 - Get the latest grand prix results
 .lunch <restaurant> - Show the lunch menu for given restaurant
+.lunches - Show a list of all lunches
 .gitlab <search> - Search GitLab commits, projects and merge requests
 .tacos - Find out if a nearby restaurant is serving some kind of taco today
 .insult <user> - Make Leif insult given username
