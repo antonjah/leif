@@ -146,6 +146,14 @@ Get Leif logs. Supported levels are:
 .log error
 ```
 
+### Corona
+
+Get the COVID19 status for a country
+
+```bash
+.corona sweden
+```
+
 ### Help
 
 Output help and known commands

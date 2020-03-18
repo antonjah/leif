@@ -5,28 +5,18 @@ import (
 	"regexp"
 	"time"
 
+	"github.com/patrickmn/go-cache"
 	"github.com/sirupsen/logrus"
 
 	"github.com/antonjah/leif/internal/pkg/constants"
 	"github.com/antonjah/leif/internal/pkg/utils"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/patrickmn/go-cache"
 )
 
-// LunchHandler provides methods to lunch requests
-type LunchHandler struct {
-	Cache cache.Cache
-}
-
-// NewLunchHandler returns a new LunchHandler
-func NewLunchHandler(cache cache.Cache) LunchHandler {
-	return LunchHandler{Cache: cache}
-}
-
 // GetAll returns all daily lunches
-func (h LunchHandler) GetAll(logger *logrus.Logger) []string {
-	cachedLunches, found := h.Cache.Get("lunches")
+func GetAll(cache cache.Cache, logger *logrus.Logger) []string {
+	cachedLunches, found := cache.Get("lunches")
 	if found {
 		lunches := cachedLunches.([]string)
 		return lunches
@@ -41,15 +31,15 @@ func (h LunchHandler) GetAll(logger *logrus.Logger) []string {
 
 	lunches := lunchListFromResponse(response, logger)
 
-	h.Cache.Set("lunches", lunches, 1*time.Hour)
+	cache.Set("lunches", lunches, 1*time.Hour)
 
 	return lunches
 }
 
 // Search tries to find a specific keyword in the name of all restaurants
 // or in all of their menus
-func (h LunchHandler) Search(searchArgument string, logger *logrus.Logger) ([]string, error) {
-	lunches := h.GetAll(logger)
+func Search(searchArgument string, cache cache.Cache, logger *logrus.Logger) ([]string, error) {
+	lunches := GetAll(cache, logger)
 	matches := utils.FindInSlice(searchArgument, lunches)
 
 	return matches, nil

@@ -15,10 +15,14 @@ Leif <question>?
 .flip - Flip a coin
 .tldr <cmd> - Find information about a command
 .log <level> - Get Leif logs
-.postmord <parcel-id> get the shipment status for your parcel(s) from PostNord`
+.postmord <parcel-id> get the shipment status for your parcel(s) from PostNord
+.corona <country> get the COVID19 status for a country`
 
 // DagensLunchURL holds the URL to Norrans' daily lunch list
 const DagensLunchURL = "https://www.norran.se/dagenslunch"
 
 // TLDRBaseURL holds the base used for formatting the GET TLDR URL
 const TLDRBaseURL = "https://api.github.com/repos/tldr-pages/tldr/contents/pages/common/%s.md?ref=master"
+
+// CoronaBaseURL holds the base for the Corona status API
+const CoronaBaseURL = "https://corona-stats.online/%s?format=json"

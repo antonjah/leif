@@ -3,7 +3,7 @@ package app
 import (
 	"github.com/nlopes/slack"
 
-	"github.com/antonjah/leif/internal/pkg/lunches"
+	"github.com/antonjah/leif/internal/pkg/utils"
 )
 
 // Run loads configs, initializes handlers and starts Leif
@@ -15,8 +15,8 @@ func Run() {
 
 	client := slack.New(config.SlackToken)
 
-	lunchHandler := lunches.NewLunchHandler(config.Cache)
-	eventHandler := NewEventHandler(client, lunchHandler, logger, config)
+	cache := utils.NewCache()
+	eventHandler := NewEventHandler(client, cache, logger, config)
 
 	logger.Info("Connecting to slack...")
 	rtm := client.NewRTM()

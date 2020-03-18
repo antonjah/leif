@@ -4,7 +4,10 @@ import (
 	"fmt"
 	"regexp"
 
+	"github.com/patrickmn/go-cache"
+
 	"github.com/antonjah/leif/internal/pkg/constants"
+	"github.com/antonjah/leif/internal/pkg/corona"
 	"github.com/antonjah/leif/internal/pkg/decide"
 	"github.com/antonjah/leif/internal/pkg/f1"
 	"github.com/antonjah/leif/internal/pkg/flip"
@@ -35,20 +38,21 @@ var (
 	LOG        = regexp.MustCompile(IGNORECASE + "^\\.log (.*)")
 	GITLAB     = regexp.MustCompile(IGNORECASE + "^\\.gitlab (.*)")
 	POSTMORD   = regexp.MustCompile(IGNORECASE + "^\\.postmord (.*)")
+	CORONA     = regexp.MustCompile(IGNORECASE + "^\\.corona (.*)")
 )
 
 // EventHandler provides methods to handle slack events
 type EventHandler struct {
-	Client       *slack.Client
-	LunchHandler lunches.LunchHandler
-	Logger       *logrus.Logger
-	Config       Config
+	Client *slack.Client
+	Cache  cache.Cache
+	Logger *logrus.Logger
+	Config Config
 }
 
 // NewEventHandler returns a new EventHandler containing a slack client
 // and LunchHandler
-func NewEventHandler(client *slack.Client, lunchHandler lunches.LunchHandler, logger *logrus.Logger, config Config) EventHandler {
-	return EventHandler{Client: client, LunchHandler: lunchHandler, Logger: logger, Config: config}
+func NewEventHandler(client *slack.Client, cache cache.Cache, logger *logrus.Logger, config Config) EventHandler {
+	return EventHandler{Client: client, Cache: cache, Logger: logger, Config: config}
 }
 
 // Handle filters bot events and passes events to respective sub handler
@@ -69,11 +73,11 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 		HandleResponse(f1.GetLatestResult(e.Logger), event, e.Client, e.Logger)
 
 	case LUNCHES.MatchString(event.Text):
-		HandleResponse(e.LunchHandler.GetAll(e.Logger), event, e.Client, e.Logger)
+		HandleResponse(lunches.GetAll(e.Cache, e.Logger), event, e.Client, e.Logger)
 
 	case LUNCH.MatchString(event.Text):
 		arg := LUNCH.FindStringSubmatch(event.Text)[1]
-		matches, err := e.LunchHandler.Search(arg, e.Logger)
+		matches, err := lunches.Search(arg, e.Cache, e.Logger)
 		if err != nil {
 			e.Logger.Error(err)
 			return
@@ -86,7 +90,7 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 		HandleResponse(fmt.Sprintf("Sorry, found nothing on %s", arg), event, e.Client, e.Logger)
 
 	case TACOS.MatchString(event.Text):
-		matches, err := e.LunchHandler.Search("taco", e.Logger)
+		matches, err := lunches.Search("taco", e.Cache, e.Logger)
 		if err != nil {
 			e.Logger.Error(err)
 			return
@@ -143,8 +147,9 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 		}
 		arg := POSTMORD.FindStringSubmatch(event.Text)[1]
 		HandleResponse(postmord.Search(arg, e.Logger, e.Config.PostMordToken), event, e.Client, e.Logger)
+
+	case CORONA.MatchString(event.Text):
+		arg := CORONA.FindStringSubmatch(event.Text)[1]
+		HandleResponse(corona.GetStatuses(arg, e.Cache, e.Logger), event, e.Client, e.Logger)
 	}
 }
-
-// TODO: Implement
-func handleBotEvent() {}
