@@ -61,6 +61,7 @@ func GetStatuses(country string, cache cache.Cache, logger *logrus.Logger) strin
 
 	var countryStatuses []countryStatus
 	if err := json.Unmarshal(b, &countryStatuses); err != nil {
+		logger.Error(err)
 		return "Country not found"
 	}
 

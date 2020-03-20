@@ -26,3 +26,6 @@ const TLDRBaseURL = "https://api.github.com/repos/tldr-pages/tldr/contents/pages
 
 // CoronaBaseURL holds the base for the Corona status API
 const CoronaBaseURL = "https://corona-stats.online/%s?format=json"
+
+// InsultURL
+const InsultURL = "https://evilinsult.com/generate_insult.php?lang=en&type=text"

@@ -49,12 +49,6 @@ type EventHandler struct {
 	Config Config
 }
 
-// NewEventHandler returns a new EventHandler containing a slack client
-// and LunchHandler
-func NewEventHandler(client *slack.Client, cache cache.Cache, logger *logrus.Logger, config Config) EventHandler {
-	return EventHandler{Client: client, Cache: cache, Logger: logger, Config: config}
-}
-
 // Handle filters bot events and passes events to respective sub handler
 func (e EventHandler) Handle(msg slack.RTMEvent) {
 	switch event := msg.Data.(type) {

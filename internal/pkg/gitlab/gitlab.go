@@ -48,22 +48,22 @@ func Search(arg string, logger *logrus.Logger, token, url string) string {
 	mrs, r, err := c.Search.MergeRequests(arg, opts)
 	if err != nil {
 		logger.Error(err)
-		return "Got an unexpected response while searching for merge requests, please check my logs"
+		return "Failed to get merge requests, please check my logs"
 	}
 	if r.StatusCode/100 != 2 {
 		logger.Error(r.Status)
-		return "Got an unexpected response from GitLab, please check my logs"
+		return "Failed to get merge requests, please check my logs"
 	}
 	rs.MergeRequests = mrs
 
 	projs, r, err := c.Search.Projects(arg, opts)
 	if err != nil {
 		logger.Error(err)
-		return "Got an unexpected response while searching for projects, please check my logs"
+		return "Failed to get projects, please check my logs"
 	}
 	if r.StatusCode/100 != 2 {
 		logger.Error(r.Status)
-		return "Got an unexpected response from GitLab, please check my logs"
+		return "Failed to get projects, please check my logs"
 	}
 	rs.Projects = projs
 

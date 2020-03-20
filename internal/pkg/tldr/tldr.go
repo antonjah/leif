@@ -20,7 +20,7 @@ func GetTLDR(arg string, logger *logrus.Logger) string {
 	resp, err := client.Do(req)
 	if err != nil {
 		logger.Error(err)
-		return "I encountered a problem trying to get your tldr information, please check my logs"
+		return "Failed to get tldr, please check my logs"
 	}
 
 	switch resp.StatusCode {
@@ -28,7 +28,7 @@ func GetTLDR(arg string, logger *logrus.Logger) string {
 		page, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			logger.Error(err)
-			return "I encountered a problem trying to read the tldr information, please check my logs"
+			return "Failed to get tldr, please check my logs"
 		}
 		return string(page)
 
@@ -36,6 +36,7 @@ func GetTLDR(arg string, logger *logrus.Logger) string {
 		return fmt.Sprintf("Found nothing on %s", arg)
 
 	default:
-		return "The GitHub API shit the bed, please check my logs"
+		logger.Errorf("Failed to get tldr: %s", resp.Status)
+		return "Failed to get tldr, please check my logs"
 	}
 }

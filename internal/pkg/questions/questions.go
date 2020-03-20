@@ -8,7 +8,7 @@ import (
 
 // GetAnswer tries to get an answer or definition for user input from DDG
 func GetAnswer(arg string) string {
-	var answer string = "I don't know what to do with that information"
+	var answer string = "Failed to get an answer for that, please check my logs"
 
 	results, _ := ddgquery.Query(arg, 1)
 	if len(results) > 0 {

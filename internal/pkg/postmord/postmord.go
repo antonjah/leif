@@ -13,7 +13,7 @@ func Search(identifier string, logger *log.Logger, token string) string {
 	r, err := c.FindByIdentifier(strings.TrimSpace(identifier))
 	if err != nil {
 		logger.Error(err)
-		return "Failed to get a status, please check my logs"
+		return "Failed to get status, please check my logs"
 	}
 
 	answer := ""

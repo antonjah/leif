@@ -11,12 +11,12 @@ func Run() {
 	logger := InitLogger()
 
 	logger.Info("Loading config...")
-	config := NewConfig()
+	config := NewConfig(logger)
 
 	client := slack.New(config.SlackToken)
 
 	cache := utils.NewCache()
-	eventHandler := NewEventHandler(client, cache, logger, config)
+	eventHandler := EventHandler{client, cache, logger, config}
 
 	logger.Info("Connecting to slack...")
 	rtm := client.NewRTM()

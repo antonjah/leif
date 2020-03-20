@@ -2,7 +2,7 @@ package app
 
 import (
 	"github.com/caarlos0/env"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 // Config app configuration
@@ -14,11 +14,11 @@ type Config struct {
 }
 
 // NewConfig returns a new app configuration with ENVs loaded
-func NewConfig() Config {
+func NewConfig(logger *logrus.Logger) Config {
 	c := Config{}
 
 	if err := env.Parse(&c); err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
 
 	return c

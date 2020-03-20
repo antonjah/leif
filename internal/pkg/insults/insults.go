@@ -4,13 +4,15 @@ import (
 	"html"
 	"io/ioutil"
 	"net/http"
+
+	"github.com/antonjah/leif/internal/pkg/constants"
 )
 
 // Get returns an insult from the evil insult API
 func Get() (string, error) {
-	r, err := http.Get("https://evilinsult.com/generate_insult.php?lang=en&type=text")
+	r, err := http.Get(constants.InsultURL)
 	if err != nil {
-		return "The insult API isn't working right now, you'll have to do it yourself", err
+		return "Failed to get an insult, please check my logs", err
 	}
 	defer r.Body.Close()
 
