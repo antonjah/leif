@@ -14,46 +14,26 @@ import (
 	"github.com/antonjah/leif/internal/pkg/constants"
 )
 
-type CoronaResponse struct {
-	Data []CountryInfo `json:"data"`
-}
-
 type CountryInfo struct {
-	Country             string `json:"country"`
-	Cases               int    `json:"cases"`
-	TodayCases          int    `json:"todayCases"`
-	Deaths              int    `json:"deaths"`
-	TodayDeaths         int    `json:"todayDeaths"`
-	Recovered           int    `json:"recovered"`
-	Active              int    `json:"active"`
-	Critical            int    `json:"critical"`
-	CasesPerOneMillion  int    `json:"casesPerOneMillion"`
-	DeathsPerOneMillion int    `json:"deathsPerOneMillion"`
-	Confirmed           int    `json:"confirmed"`
+	Confirmed   int    `json:"Confirmed"`
+	Deaths      int    `json:"Deaths"`
+	Recovered   int    `json:"Recovered"`
+	Active      int    `json:"Active"`
+	LastUpdated string `json:"Date"`
 }
 
-func (c *CoronaResponse) toString() string {
+func (c *CountryInfo) toString() string {
 	return fmt.Sprintf(
 		"Confirmed: %d\n"+
-			"Cases: %d\n"+
-			"Cases today: %d\n"+
 			"Deaths: %d\n"+
-			"Deaths today: %d\n"+
 			"Recovered: %d\n"+
 			"Active: %d\n"+
-			"Critical: %d\n"+
-			"Cases per million: %d\n"+
-			"Deaths per million: %d",
-		c.Data[0].Confirmed,
-		c.Data[0].Cases,
-		c.Data[0].TodayCases,
-		c.Data[0].Deaths,
-		c.Data[0].TodayDeaths,
-		c.Data[0].Recovered,
-		c.Data[0].Active,
-		c.Data[0].Critical,
-		c.Data[0].CasesPerOneMillion,
-		c.Data[0].DeathsPerOneMillion,
+			"Last updated: %s",
+		c.Confirmed,
+		c.Deaths,
+		c.Recovered,
+		c.Active,
+		c.LastUpdated,
 	)
 }
 
@@ -72,7 +52,7 @@ func GetStatuses(country string, cache cache.Cache, logger *logrus.Logger) strin
 		return "Failed to get corona status, please check my logs"
 	} else if r.StatusCode == http.StatusNotFound {
 		return "Country not found"
-	} else if r.StatusCode / 100 != 2 {
+	} else if r.StatusCode/100 != 2 {
 		logger.Error(r.Status)
 		return "Failed to get corona status, please check my logs"
 	}
@@ -84,13 +64,13 @@ func GetStatuses(country string, cache cache.Cache, logger *logrus.Logger) strin
 	}
 	defer r.Body.Close()
 
-	var res CoronaResponse
+	var res []CountryInfo
 	if err := json.Unmarshal(b, &res); err != nil {
 		logger.Fatal(err)
 		return "Failed to read corona status, please check my logs"
 	}
 
-	cache.Set(country, res.toString(), 24*time.Hour)
+	cache.Set(country, res[len(res)-1].toString(), 24*time.Hour)
 
-	return res.toString()
+	return res[len(res)-1].toString()
 }

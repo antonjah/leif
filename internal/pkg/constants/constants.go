@@ -25,7 +25,7 @@ const DagensLunchURL = "https://www.matochmat.se/skelleftea"
 const TLDRBaseURL = "https://api.github.com/repos/tldr-pages/tldr/contents/pages/common/%s.md?ref=master"
 
 // CoronaBaseURL holds the base for the Corona status API
-const CoronaBaseURL = "https://corona-stats.online/%s?format=json"
+const CoronaBaseURL = "https://api.covid19api.com/total/country/%s"
 
 // InsultURL
 const InsultURL = "https://evilinsult.com/generate_insult.php?lang=en&type=text"
