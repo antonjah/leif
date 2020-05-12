@@ -2,7 +2,6 @@ package lunches
 
 import (
 	"net/http"
-	"regexp"
 	"time"
 
 	"github.com/patrickmn/go-cache"
@@ -13,6 +12,16 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 )
+
+var dayMap = map[int]string{
+	1: "måndag",
+	2: "tisdag",
+	3: "onsdag",
+	4: "torsdag",
+	5: "fredag",
+	6: "lördag",
+	7: "söndag",
+}
 
 // GetAll returns all daily lunches
 func GetAll(cache cache.Cache, logger *logrus.Logger) []string {
@@ -52,13 +61,19 @@ func lunchListFromResponse(response *http.Response, logger *logrus.Logger) []str
 		return []string{"Failed to get lunches, please check my logs"}
 	}
 
+	weekday := int(time.Now().Weekday())
+
 	var lunches []string
 
-	doc.Find(".card-body.pt-2").Each(func(i int, s *goquery.Selection) {
-		s.Attr("class")
-		re := regexp.MustCompile(`\s+`)
-		lunchRow := "-" + re.ReplaceAllString(s.Text(), " ")
-		lunches = append(lunches, lunchRow)
+	doc.Find(".w-restaurant").Each(func(i int, s *goquery.Selection) {
+		name := "\n" + s.Find(".i-restaurant.name").Find(".heading").Text()
+		var lunchStr = name + "\n"
+		s.Find(".i-restaurant.menu").Find(".dish").Each(func(i int, se *goquery.Selection) {
+			if v, _ := se.Attr("data-day"); v == dayMap[weekday] {
+				lunchStr += se.Find(".name.ckeditor.text-only-editor").Text() + "\n"
+			}
+		})
+		lunches = append(lunches, lunchStr)
 	})
 
 	return lunches

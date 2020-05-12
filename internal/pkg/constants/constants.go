@@ -18,8 +18,8 @@ Leif <question>?
 .postmord <parcel-id> get the shipment status for your parcel(s) from PostNord
 .corona <country> get the COVID19 status for a country`
 
-// DagensLunchURL holds the URL to Norrans' daily lunch list
-const DagensLunchURL = "https://www.norran.se/dagenslunch"
+// DagensLunchURL holds the URL to matochmat' daily lunch list
+const DagensLunchURL = "https://www.matochmat.se/skelleftea"
 
 // TLDRBaseURL holds the base used for formatting the GET TLDR URL
 const TLDRBaseURL = "https://api.github.com/repos/tldr-pages/tldr/contents/pages/common/%s.md?ref=master"

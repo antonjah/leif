@@ -56,7 +56,7 @@ Get the latest grand prix results
 .f1
 ```
 
-### Lunch ([norran](https://norran.se))
+### Lunch ([matochmat](https://www.matochmat.se/skelleftea/))
 
 Search for something you'd like to eat or get a specific menu for a restaurant
 
@@ -65,7 +65,7 @@ Search for something you'd like to eat or get a specific menu for a restaurant
 .lunch pizzeria mama mia
 ```
 
-### Lunches ([norran](https://norran.se))
+### Lunches ([matochmat](https://www.matochmat.se/skelleftea/))
 
 Get all lunch menus for today
 
