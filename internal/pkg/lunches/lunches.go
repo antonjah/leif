@@ -14,13 +14,13 @@ import (
 )
 
 var dayMap = map[int]string{
-	1: "måndag",
+	1: "mandag",
 	2: "tisdag",
 	3: "onsdag",
 	4: "torsdag",
 	5: "fredag",
-	6: "lördag",
-	7: "söndag",
+	6: "lordag",
+	7: "sondag",
 }
 
 // GetAll returns all daily lunches
