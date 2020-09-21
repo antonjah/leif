@@ -26,7 +26,15 @@ docker run -e SLACK_TOKEN=<slack-token> antonjah/leif
 Running with all functionality:
 
 ```bash
-docker run -e SLACK_TOKEN=<slack-token> -e GITLAB_TOKEN=<gitlab-token> -e GITLAB_BASE_URL=<url> -e POSTMORD_TOKEN=<postmord-token> antonjah/leif
+docker run -d --restart unless-stopped \
+    -e SLACK_TOKEN=<slack-token> \
+    -e GITLAB_TOKEN=<gitlab-token> \
+    -e GITLAB_BASE_URL=<gitlab-url> \
+    -e POSTMORD_TOKEN=<postmord-token> \
+    -e JIRA_URL=<jira-url> \
+    -e JIRA_USERNAME=<jira-username> \
+    -e JIRA_TOKEN=<jira-token> \
+    antonjah/leif
 ```
 
 ## Commands
@@ -152,6 +160,14 @@ Get the COVID19 status for a country
 
 ```bash
 .corona sweden
+```
+
+### JIRA
+
+Get information about an issue on JIRA
+
+```bash
+.jira FOO-1234
 ```
 
 ### Help

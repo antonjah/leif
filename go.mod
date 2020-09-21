@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/PuerkitoBio/goquery v1.5.0
+	github.com/andygrunwald/go-jira v1.12.0
 	github.com/antonjah/postmord v0.0.0-20200301234853-6c6e90c8ad49
 	github.com/caarlos0/env v3.5.0+incompatible
 	github.com/foobarmeow/go-ergast v0.0.0-20180318212653-0006e2715f0d

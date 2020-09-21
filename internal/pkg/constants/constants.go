@@ -15,8 +15,9 @@ Leif <question>?
 .flip - Flip a coin
 .tldr <cmd> - Find information about a command
 .log <level> - Get Leif logs
-.postmord <parcel-id> get the shipment status for your parcel(s) from PostNord
-.corona <country> get the COVID19 status for a country`
+.postmord <parcel-id> Get the shipment status for your parcel(s) from PostNord
+.corona <country> Get the COVID19 status for a country
+.jira <issue-id> Get information about an issue`
 
 // DagensLunchURL holds the URL to matochmat' daily lunch list
 const DagensLunchURL = "https://www.matochmat.se/skelleftea"

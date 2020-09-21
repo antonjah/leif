@@ -11,6 +11,9 @@ type Config struct {
 	GitLabToken   string `env:"GITLAB_TOKEN"`
 	GitLabURL     string `env:"GITLAB_BASE_URL"`
 	PostMordToken string `env:"POSTMORD_TOKEN"`
+	JIRAURL       string `env:"JIRA_URL"`
+	JIRAUsername  string `env:"JIRA_USERNAME"`
+	JIRAToken     string `env:"JIRA_TOKEN"`
 }
 
 // NewConfig returns a new app configuration with ENVs loaded
