@@ -40,7 +40,7 @@ var (
 	GITLAB     = regexp.MustCompile(IGNORECASE + "^\\.gitlab (.*)")
 	POSTMORD   = regexp.MustCompile(IGNORECASE + "^\\.postmord (.*)")
 	CORONA     = regexp.MustCompile(IGNORECASE + "^\\.corona (.*)")
-	SUGGEST    = regexp.MustCompile(IGNORECASE + "^\\.suggest (.*)")
+	SUGGEST    = regexp.MustCompile(IGNORECASE + "^\\.suggest")
 )
 
 // EventHandler provides methods to handle slack events
@@ -149,7 +149,7 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 		HandleResponse(corona.GetStatuses(arg, e.Cache, e.Logger), event, e.Client, e.Logger)
 
 	case SUGGEST.MatchString(event.Text):
-		HandleResponse(suggest.GetSuggestion, event, e.Client, e.Logger)
+		HandleResponse(suggest.GetSuggestion(e.Logger), event, e.Client, e.Logger)
 
 	}
 }
