@@ -170,6 +170,14 @@ Get information about an issue on JIRA
 .jira FOO-1234
 ```
 
+### Suggest
+
+Having trouble naming a variable or a baby?
+
+```bash
+.suggest
+```
+
 ### Help
 
 Output help and known commands
