@@ -2,7 +2,6 @@ package app
 
 import (
 	"fmt"
-	"github.com/antonjah/leif/internal/pkg/jira"
 	"regexp"
 
 	"github.com/patrickmn/go-cache"
@@ -15,6 +14,7 @@ import (
 	"github.com/antonjah/leif/internal/pkg/gitlab"
 	"github.com/antonjah/leif/internal/pkg/postmord"
 	"github.com/antonjah/leif/internal/pkg/questions"
+	"github.com/antonjah/leif/internal/pkg/suggest"
 	"github.com/antonjah/leif/internal/pkg/tldr"
 
 	"github.com/nlopes/slack"
@@ -25,22 +25,22 @@ import (
 )
 
 var (
-	IGNORECASE   = "(?i)"
-	F1           = regexp.MustCompile(IGNORECASE + "^\\.f1")
-	LUNCH        = regexp.MustCompile(IGNORECASE + "^\\.lunch (.*)")
-	LUNCHES      = regexp.MustCompile(IGNORECASE + "^\\.lunches")
-	TACOS        = regexp.MustCompile(IGNORECASE + "^\\.tacos")
-	QUESTION     = regexp.MustCompile(IGNORECASE + "^leif(.*)\\?")
-	INSULT       = regexp.MustCompile(IGNORECASE + "^\\.insult (.*)")
-	HELP         = regexp.MustCompile(IGNORECASE + "^\\.help")
-	DECIDE       = regexp.MustCompile(IGNORECASE + "^\\.decide")
-	FLIP         = regexp.MustCompile(IGNORECASE + "^\\.flip")
-	TLDR         = regexp.MustCompile(IGNORECASE + "^\\.tldr (.*)")
-	LOG          = regexp.MustCompile(IGNORECASE + "^\\.log (.*)")
-	GITLAB       = regexp.MustCompile(IGNORECASE + "^\\.gitlab (.*)")
-	POSTMORD     = regexp.MustCompile(IGNORECASE + "^\\.postmord (.*)")
-	CORONA       = regexp.MustCompile(IGNORECASE + "^\\.corona (.*)")
-	JIRAGETISSUE = regexp.MustCompile(IGNORECASE + "^\\.jira (.*)")
+	IGNORECASE = "(?i)"
+	F1         = regexp.MustCompile(IGNORECASE + "^\\.f1")
+	LUNCH      = regexp.MustCompile(IGNORECASE + "^\\.lunch (.*)")
+	LUNCHES    = regexp.MustCompile(IGNORECASE + "^\\.lunches")
+	TACOS      = regexp.MustCompile(IGNORECASE + "^\\.tacos")
+	QUESTION   = regexp.MustCompile(IGNORECASE + "^leif(.*)\\?")
+	INSULT     = regexp.MustCompile(IGNORECASE + "^\\.insult (.*)")
+	HELP       = regexp.MustCompile(IGNORECASE + "^\\.help")
+	DECIDE     = regexp.MustCompile(IGNORECASE + "^\\.decide")
+	FLIP       = regexp.MustCompile(IGNORECASE + "^\\.flip")
+	TLDR       = regexp.MustCompile(IGNORECASE + "^\\.tldr (.*)")
+	LOG        = regexp.MustCompile(IGNORECASE + "^\\.log (.*)")
+	GITLAB     = regexp.MustCompile(IGNORECASE + "^\\.gitlab (.*)")
+	POSTMORD   = regexp.MustCompile(IGNORECASE + "^\\.postmord (.*)")
+	CORONA     = regexp.MustCompile(IGNORECASE + "^\\.corona (.*)")
+	SUGGEST    = regexp.MustCompile(IGNORECASE + "^\\.suggest")
 )
 
 // EventHandler provides methods to handle slack events
@@ -148,12 +148,8 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 		arg := CORONA.FindStringSubmatch(event.Text)[1]
 		HandleResponse(corona.GetStatuses(arg, e.Cache, e.Logger), event, e.Client, e.Logger)
 
-	case JIRAGETISSUE.MatchString(event.Text):
-		if e.Config.JIRAToken == "" || e.Config.JIRAUsername == "" || e.Config.JIRAURL == "" {
-			HandleResponse("JIRA functionality is disabled, set ENVs to enable", event, e.Client, e.Logger)
-			return
-		}
-		arg := JIRAGETISSUE.FindStringSubmatch(event.Text)[1]
-		HandleResponse(jira.GetIssue(arg, e.Logger, e.Config.JIRAUsername, e.Config.JIRAToken, e.Config.JIRAURL), event, e.Client, e.Logger)
+	case SUGGEST.MatchString(event.Text):
+		HandleResponse(suggest.GetSuggestion(e.Logger), event, e.Client, e.Logger)
+
 	}
 }

@@ -15,9 +15,9 @@ Leif <question>?
 .flip - Flip a coin
 .tldr <cmd> - Find information about a command
 .log <level> - Get Leif logs
-.postmord <parcel-id> Get the shipment status for your parcel(s) from PostNord
-.corona <country> Get the COVID19 status for a country
-.jira <issue-id> Get information about an issue`
+.postmord <parcel-id> get the shipment status for your parcel(s) from PostNord
+.corona <country> get the COVID19 status for a country
+.suggest - get a nice word to be used and abused`
 
 // DagensLunchURL holds the URL to matochmat' daily lunch list
 const DagensLunchURL = "https://www.matochmat.se/skelleftea"
@@ -30,3 +30,6 @@ const CoronaBaseURL = "https://api.covid19api.com/total/country/%s"
 
 // InsultURL
 const InsultURL = "https://evilinsult.com/generate_insult.php?lang=en&type=text"
+
+//Random-word-API
+const RandomWordApiURL = "https://random-word-api.herokuapp.com/word?number=2"
