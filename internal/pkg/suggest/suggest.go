@@ -28,6 +28,6 @@ func GetSuggestion(logger *logrus.Logger) string {
 		logger.Error(err)
 		return "Failed to get random word, please check my logs"
 	}
-	result := fmt.Sprintf("How about you use '%s' ?", strings.Title(words[0])+strings.Title(words[1]))
+	result := fmt.Sprintf("How about you use '%s'?", strings.Title(words[0])+strings.Title(words[1]))
 	return result
 }
