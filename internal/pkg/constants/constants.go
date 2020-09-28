@@ -32,4 +32,4 @@ const CoronaBaseURL = "https://api.covid19api.com/total/country/%s"
 const InsultURL = "https://evilinsult.com/generate_insult.php?lang=en&type=text"
 
 //Random-word-API
-const RandomWordApiURL = "https://random-word-api.herokuapp.com/word?number=2"
+const RandomWordApiURL = "https://random-word-api.herokuapp.com/word?number=2&swear=1"
