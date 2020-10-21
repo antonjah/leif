@@ -17,7 +17,8 @@ Leif <question>?
 .log <level> - Get Leif logs
 .postmord <parcel-id> get the shipment status for your parcel(s) from PostNord
 .corona <country> get the COVID19 status for a country
-.suggest - get a nice word to be used and abused`
+.suggest - get a nice word to be used and abused
+.jira <arg> - Get information about a JIRA issue`
 
 // DagensLunchURL holds the URL to matochmat' daily lunch list
 const DagensLunchURL = "https://www.matochmat.se/skelleftea"
