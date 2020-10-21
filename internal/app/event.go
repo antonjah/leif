@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"github.com/antonjah/leif/internal/pkg/jira"
 	"regexp"
 
 	"github.com/patrickmn/go-cache"
@@ -41,6 +42,7 @@ var (
 	POSTMORD   = regexp.MustCompile(IGNORECASE + "^\\.postmord (.*)")
 	CORONA     = regexp.MustCompile(IGNORECASE + "^\\.corona (.*)")
 	SUGGEST    = regexp.MustCompile(IGNORECASE + "^\\.suggest")
+	JIRA       = regexp.MustCompile(IGNORECASE + "^\\.jira (.*)")
 )
 
 // EventHandler provides methods to handle slack events
@@ -151,5 +153,12 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 	case SUGGEST.MatchString(event.Text):
 		HandleResponse(suggest.GetSuggestion(e.Logger), event, e.Client, e.Logger)
 
+	case JIRA.MatchString(event.Text):
+		if e.Config.JIRAURL == "" || e.Config.JIRAUsername == "" || e.Config.JIRAToken == "" {
+			HandleResponse("JIRA functionality is disabled, set ENVs to enable", event, e.Client, e.Logger)
+			return
+		}
+		arg := JIRA.FindStringSubmatch(event.Text)[1]
+		HandleResponse(jira.GetIssue(arg, e.Logger, e.Config.JIRAUsername, e.Config.JIRAToken, e.Config.JIRAURL), event, e.Client, e.Logger)
 	}
 }
