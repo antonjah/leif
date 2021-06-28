@@ -63,7 +63,7 @@ func lunchListFromResponse(response *http.Response, logger *logrus.Logger) []str
 			dishSel.Find(".dish__topRow").Each(func(i int, dishInfoSel *goquery.Selection) {
 				dish := strings.ReplaceAll(strings.TrimSpace(dishInfoSel.Find(".dish__name").Text()), "\t", "")
 				additional := dishSel.Find(".dish__bottomRow").Text()
-				dishList = append(dishList, fmt.Sprintf("* %s %s", dish, additional))
+				dishList = append(dishList, fmt.Sprintf("- %s %s", dish, additional))
 			})
 		})
 
