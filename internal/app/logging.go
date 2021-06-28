@@ -87,6 +87,6 @@ func logEnabledPlugins(conf Config, logger *logrus.Logger) {
 	}
 
 	if len(enabled) > 0 {
-	        logger.Infof("Enabled plugins: %s", strings.Join(enabled, ", "))
+		logger.Infof("Enabled plugins: %s", strings.Join(enabled, ", "))
 	}
 }
