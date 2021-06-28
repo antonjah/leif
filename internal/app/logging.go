@@ -86,5 +86,7 @@ func logEnabledPlugins(conf Config, logger *logrus.Logger) {
 		enabled = append(enabled, "PostMord")
 	}
 
-	logger.Infof("Enabled plugins: %s", strings.Join(enabled, ", "))
+	if len(enabled) > 0 {
+	        logger.Infof("Enabled plugins: %s", strings.Join(enabled, ", "))
+	}
 }
