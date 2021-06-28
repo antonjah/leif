@@ -73,3 +73,18 @@ func InitLogger() *logrus.Logger {
 
 	return logger
 }
+
+func logEnabledPlugins(conf Config, logger *logrus.Logger) {
+	var enabled []string
+	if conf.GitLabToken != "" {
+		enabled = append(enabled, "GitLab")
+	}
+	if conf.JIRAURL != "" && conf.JIRAUsername != "" && conf.JIRAToken != "" {
+		enabled = append(enabled, "JIRA")
+	}
+	if conf.PostMordToken != "" {
+		enabled = append(enabled, "PostMord")
+	}
+
+	logger.Infof("Enabled plugins: %s", strings.Join(enabled, ", "))
+}

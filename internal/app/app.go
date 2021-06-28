@@ -1,9 +1,8 @@
 package app
 
 import (
-	"github.com/nlopes/slack"
-
 	"github.com/antonjah/leif/internal/pkg/utils"
+	"github.com/nlopes/slack"
 )
 
 // Run loads configs, initializes handlers and starts Leif
@@ -23,6 +22,8 @@ func Run() {
 	go rtm.ManageConnection()
 
 	logger.Info("Leif is now running!")
+
+	logEnabledPlugins(config, logger)
 	for msg := range rtm.IncomingEvents {
 		eventHandler.Handle(msg)
 	}

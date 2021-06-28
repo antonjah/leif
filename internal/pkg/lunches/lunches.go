@@ -1,7 +1,9 @@
 package lunches
 
 import (
+	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/patrickmn/go-cache"
@@ -12,16 +14,6 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 )
-
-var dayMap = map[int]string{
-	1: "mandag",
-	2: "tisdag",
-	3: "onsdag",
-	4: "torsdag",
-	5: "fredag",
-	6: "lordag",
-	7: "sondag",
-}
 
 // GetAll returns all daily lunches
 func GetAll(cache cache.Cache, logger *logrus.Logger) []string {
@@ -61,19 +53,22 @@ func lunchListFromResponse(response *http.Response, logger *logrus.Logger) []str
 		return []string{"Failed to get lunches, please check my logs"}
 	}
 
-	weekday := int(time.Now().Weekday())
-
 	var lunches []string
 
-	doc.Find(".w-restaurant").Each(func(i int, s *goquery.Selection) {
-		name := "\n" + s.Find(".i-restaurant.name").Find(".heading").Text()
-		var lunchStr = name + "\n"
-		s.Find(".i-restaurant.menu").Find(".dish").Each(func(i int, se *goquery.Selection) {
-			if v, _ := se.Attr("data-day"); v == dayMap[weekday] {
-				lunchStr += se.Find(".name.ckeditor.text-only-editor").Text() + "\n"
-			}
+	doc.Find(".lunchMenuListItem").Each(func(i int, restaurantSel *goquery.Selection) {
+		var name = strings.TrimSpace(restaurantSel.Find(".lunchMenuListItem__restaurantName").Text())
+
+		var dishList []string
+		restaurantSel.Find(".dish").Each(func(i int, dishSel *goquery.Selection) {
+			dishSel.Find(".dish__topRow").Each(func(i int, dishInfoSel *goquery.Selection) {
+				dish := strings.ReplaceAll(strings.TrimSpace(dishInfoSel.Find(".dish__name").Text()), "\t", "")
+				additional := dishSel.Find(".dish__bottomRow").Text()
+				dishList = append(dishList, fmt.Sprintf("* %s %s", dish, additional))
+			})
 		})
-		lunches = append(lunches, lunchStr)
+
+		formatted := fmt.Sprintf("\n*%s*\n%s", name, strings.Join(dishList, "\n"))
+		lunches = append(lunches, formatted)
 	})
 
 	return lunches
