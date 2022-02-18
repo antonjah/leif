@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/PuerkitoBio/goquery v1.5.0
+	github.com/ajanicij/goduckgo v0.0.0-20150205231829-61f9a275272f
 	github.com/andygrunwald/go-jira v1.12.0
 	github.com/antonjah/postmord v0.0.0-20200301234853-6c6e90c8ad49
 	github.com/caarlos0/env v3.5.0+incompatible
@@ -12,5 +13,4 @@ require (
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/sirupsen/logrus v1.4.2
 	github.com/xanzy/go-gitlab v0.26.0
-	gitlab.com/psheets/ddgquery v0.0.0-20171103050336-ab8ec8eaa7c5
 )

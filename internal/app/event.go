@@ -102,7 +102,7 @@ func (e EventHandler) handleMessageEvent(event *slack.MessageEvent) {
 
 	case QUESTION.MatchString(event.Text):
 		arg := QUESTION.FindStringSubmatch(event.Text)[1]
-		answer := questions.GetAnswer(arg)
+		answer := questions.GetAnswer(arg, e.Logger)
 		HandleResponse(answer, event, e.Client, e.Logger)
 
 	case INSULT.MatchString(event.Text):
